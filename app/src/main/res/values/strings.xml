@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">In Future</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="nav_predict_list">Predictions</string>
+    <string name="sign_thousand">k</string>
+    <string name="sign_million">m</string>
+    <string name="sign_billion">b</string>
+    <string name="sign_trillion">t</string>
+</resources>
