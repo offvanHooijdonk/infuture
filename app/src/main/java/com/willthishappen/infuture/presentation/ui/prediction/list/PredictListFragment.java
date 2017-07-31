@@ -42,7 +42,6 @@ public class PredictListFragment extends Fragment {
 
         ButterKnife.bind(this, v);
 
-
         return v;
     }
 
@@ -50,7 +49,9 @@ public class PredictListFragment extends Fragment {
     public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
 
+        initStubList();
         adapter = new PredictListAdapter(ctx, predictList);
+
         listPredicts.setLayoutManager(new LinearLayoutManager(ctx));
         listPredicts.setAdapter(adapter);
         listPredicts.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -66,5 +67,10 @@ public class PredictListFragment extends Fragment {
         });
     }
 
-
+    private void initStubList() {
+        predictList.clear();
+        for (int i = 0; i < 7; i++) {
+            predictList.add(new PredictBean());
+        }
+    }
 }
