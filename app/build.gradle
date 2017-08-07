@@ -28,6 +28,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.jakewharton:butterknife:$butterknife_version"
 
+    compile 'com.google.firebase:firebase-database:11.0.4'
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -36,3 +38,5 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
     compile project(':views')
 }
+
+apply plugin: 'com.google.gms.google-services'

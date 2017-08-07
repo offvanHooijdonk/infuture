@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Предсказамус</string>
+    <string name="app_name">Предсказано</string>
     <string name="action_settings">Настройки</string>
     <string name="fish_title">Когда на горе свиснет рак? После дождичка в четверг?</string>
     <string name="nav_predict_list">Предсказания</string>
-    <string name="predict_comes_true_by">Сбудется на&#032;</string>
-    <string name="predict_comes_true_in">&#032;через&#032;</string>
+    <string name="predict_comes_true_by">"Сбудется на "</string>
+    <string name="predict_comes_true_in">" через "</string>
 </resources>

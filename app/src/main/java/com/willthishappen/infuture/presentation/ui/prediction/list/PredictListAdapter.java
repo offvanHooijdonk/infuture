@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.willthishappen.infuture.R;
 import com.willthishappen.infuture.domain.PredictBean;
@@ -33,8 +34,10 @@ public class PredictListAdapter extends RecyclerView.Adapter<PredictListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder vh, int position) {
+        PredictBean predict = predicts.get(position);
 
+        vh.txtPredictTitle.setText(predict.getText());
     }
 
     @Override
@@ -43,9 +46,12 @@ public class PredictListAdapter extends RecyclerView.Adapter<PredictListAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView txtPredictTitle;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View v) {
+            super(v);
+
+            txtPredictTitle = (TextView) v.findViewById(R.id.txtPredictText);
         }
     }
 }

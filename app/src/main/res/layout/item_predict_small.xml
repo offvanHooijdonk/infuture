@@ -34,18 +34,7 @@
             android:textSize="@dimen/list_item_primary" />
     </RelativeLayout>
 
-    <!--<LinearLayout
-        android:id="@+id/blockVoteStat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@id/txtPredictText"
-        android:layout_marginBottom="@dimen/vote_stat_margin_v"
-        android:layout_marginTop="@dimen/vote_stat_margin_v"
-        android:layout_marginStart="@dimen/vote_stat_margin_h"
-        android:layout_marginEnd="@dimen/vote_stat_margin_h">
-
-        <View
+    <!--<View
             android:id="@+id/viewVotesPositive"
             style="@style/VoteStat.ListItem"
             android:layout_weight="30"
@@ -59,15 +48,14 @@
             android:id="@+id/viewVotesNegative"
             style="@style/VoteStat.ListItem"
             android:layout_weight="70"
-            android:background="@color/vote_stat_neg" />
-    </LinearLayout>-->
+            android:background="@color/vote_stat_neg" />-->
     <LinearLayout
         android:id="@+id/blockTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/blockTitle"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/item_block_margin_v">
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/blockTime"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="@dimen/item_block_margin_v">
 
         <by.offvanhooijdonk.views.BadgeNumbersView
             android:id="@+id/badgeThumpUp"
