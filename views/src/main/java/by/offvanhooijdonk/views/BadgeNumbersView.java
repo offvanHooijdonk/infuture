@@ -1,4 +1,4 @@
-package com.willthishappen.infuture.presentation.ui.view;
+package by.offvanhooijdonk.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,17 +13,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.willthishappen.infuture.R;
-import com.willthishappen.infuture.app.InFutureApplication;
-
 public class BadgeNumbersView extends FrameLayout {
+    private static final String LOG = "BadgeNumbersView";
+
     public static final int STATE_INACTIVE = 0;
     public static final int STATE_ACTIVE = 1;
+    public static final int ORIENTATION_H = 0;
+    public static final int ORIENTATION_V = 1;
     public static final int DIMENSION_UNSET = -1;
     private static final int DEFAULT_NUMBER = 0;
 
     private NumberFormatter formatter;
 
+    private int orientation;
     private Drawable badgeDrawable;
     private int imageSize;
     private int textSize;
@@ -43,6 +45,7 @@ public class BadgeNumbersView extends FrameLayout {
             imageSize = ta.getDimensionPixelSize(R.styleable.BadgeNumbersView_imageSize, DIMENSION_UNSET);
             textSize = ta.getDimensionPixelSize(R.styleable.BadgeNumbersView_textSize, DIMENSION_UNSET);
             state = ta.getInt(R.styleable.BadgeNumbersView_state, STATE_INACTIVE);
+            orientation = ta.getInt(R.styleable.BadgeNumbersView_orientation, ORIENTATION_H);
             badgeDrawable = ta.getDrawable(R.styleable.BadgeNumbersView_src);
             String numString = null;
             try {
@@ -53,26 +56,30 @@ public class BadgeNumbersView extends FrameLayout {
                     numberValue = DEFAULT_NUMBER;
                 }
             } catch (NumberFormatException e) {
-                Log.e(InFutureApplication.LOG, "Error parsing numberValue = " + numString, e);
+                Log.e(LOG, "Error parsing numberValue = " + numString, e);
                 numberValue = DEFAULT_NUMBER;
             }
         } catch (Exception e) {
-            Log.e(InFutureApplication.LOG, "Error getting badge attrs.", e);
+            Log.e(LOG, "Error getting badge attrs.", e);
         } finally {
             ta.recycle();
         }
 
         init();
 
-        updateState();
         updateBadgeDrawable();
+        updateState();
         updateImageSize();
         updateTextSize();
         updateNumberValue();
     }
 
     private void init() {
-        inflate(getContext(), R.layout.view_badge_numbers, this);
+        if (orientation == ORIENTATION_H) {
+            inflate(getContext(), R.layout.view_badge_numbers_h, this);
+        } else {
+            inflate(getContext(), R.layout.view_badge_numbers_v, this);
+        }
 
         txtBadgeNumber = (TextView) this.findViewById(R.id.txtBadgeNumber);
         imgBadgeIcon = (ImageView) this.findViewById(R.id.imgBadgeIcon);
@@ -83,7 +90,7 @@ public class BadgeNumbersView extends FrameLayout {
         int color = getContext().getResources().getColor(colorResource);
 
         DrawableCompat.setTint(imgBadgeIcon.getDrawable(), color);
-        txtBadgeNumber.setTextColor(color);
+        //txtBadgeNumber.setTextColor(color);
     }
 
     private void updateImageSize() {

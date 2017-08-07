@@ -9,6 +9,10 @@
             <enum name="inactive" value="0"/>
             <enum name="active" value="1"/>
         </attr>
+        <attr name="orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>
