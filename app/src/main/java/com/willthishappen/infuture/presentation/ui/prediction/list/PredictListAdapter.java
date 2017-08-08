@@ -13,10 +13,6 @@ import com.willthishappen.infuture.domain.PredictBean;
 
 import java.util.List;
 
-/**
- * Created by Yahor_Fralou on 7/31/2017 5:15 PM.
- */
-
 public class PredictListAdapter extends RecyclerView.Adapter<PredictListAdapter.ViewHolder> {
     private Context ctx;
     private List<PredictBean> predicts;

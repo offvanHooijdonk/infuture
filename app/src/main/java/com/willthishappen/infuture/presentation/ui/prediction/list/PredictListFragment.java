@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,29 +18,37 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.willthishappen.infuture.R;
 import com.willthishappen.infuture.domain.PredictBean;
+import com.willthishappen.infuture.presentation.presenter.prediction.list.PredictionListPresenter;
 import com.willthishappen.infuture.presentation.ui.prediction.edit.AddPredictionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
 
-public class PredictListFragment extends Fragment {
+public class PredictListFragment extends Fragment implements IPredictionListView {
 
-    @Bind(R.id.listPredicts)
+    @BindView(R.id.listPredicts)
     RecyclerView listPredicts;
-    @Bind(R.id.fabAddPredict)
+    @BindView(R.id.fabAddPredict)
     FloatingActionButton fabAddPredict;
 
     private Context ctx;
     private List<PredictBean> predictList = new ArrayList<>();
     private PredictListAdapter adapter;
 
+    @Inject
+    PredictionListPresenter presenter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (v == null) {
             v = inflater.inflate(R.layout.f_predict_list, container, false);
@@ -83,13 +90,16 @@ public class PredictListFragment extends Fragment {
     }
 
     private void loadPredictions() {
-        FirebaseDatabase.getInstance().getReference("predictions").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("predictions").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 predictList.clear();
                 for (DataSnapshot predictSnapshot : dataSnapshot.getChildren()) {
-                    predictList.add(predictSnapshot.getValue(PredictBean.class));
-                    Log.i("infuture", predictSnapshot.getValue(PredictBean.class).toString());
+                    PredictBean predictBean = predictSnapshot.getValue(PredictBean.class);
+                    if (predictBean != null) {
+                        predictBean.setId(predictSnapshot.getKey());
+                        predictList.add(predictBean);
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
@@ -97,7 +107,7 @@ public class PredictListFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                // TODO add common implementation for the DB error
             }
         });
     }
@@ -106,10 +116,10 @@ public class PredictListFragment extends Fragment {
         startActivity(new Intent(ctx, AddPredictionActivity.class));
     }
 
-    private void initStubList() {
+    /*private void initStubList() {
         predictList.clear();
         for (int i = 0; i < 7; i++) {
             predictList.add(new PredictBean());
         }
-    }
+    }*/
 }

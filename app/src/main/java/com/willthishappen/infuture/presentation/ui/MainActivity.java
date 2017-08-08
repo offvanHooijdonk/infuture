@@ -11,17 +11,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.willthishappen.infuture.R;
+import com.willthishappen.infuture.presentation.presenter.MainPresenter;
 import com.willthishappen.infuture.presentation.ui.prediction.list.PredictListFragment;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements IMainView, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
+    @Inject
+    MainPresenter presenter; // TODO check interface usage within presenters
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -38,6 +48,13 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setCheckedItem(R.id.nav_predict_list);
         navigateFragment(FragmentFactory.getPredictListFragment());
+
+        presenter.onViewCreated();
+    }
+
+    @Override
+    public void showLoginDialog() {
+        Toast.makeText(this, "Called!", Toast.LENGTH_LONG).show();
     }
 
     @Override

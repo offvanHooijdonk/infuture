@@ -10,6 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        /*jackOptions {
+            enabled true
+        }*/
     }
     buildTypes {
         release {
@@ -17,22 +21,44 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     ext.support_version = '25.3.1'
-    ext.butterknife_version = '7.0.1'
+    //ext.butterknife_version = '7.0.1'
+    ext.butterknife_version = '8.8.0'
+    ext.rx_version = '1.2.1'
+    ext.dagger_version = '2.11'
+
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:support-v4:$support_version"
     compile "com.android.support:design:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     compile "com.jakewharton:butterknife:$butterknife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
     compile 'com.google.firebase:firebase-database:11.0.4'
+
+    /*compile "io.reactivex:rxandroid:$rx_version"
+    compile "io.reactivex:rxjava:$rx_version"*/
+
+    compile "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //compile "com.google.dagger:dagger-android:$dagger_version"
+    compile "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
     testCompile 'junit:junit:4.12'
     compile 'org.jetbrains:annotations-java5:15.0'

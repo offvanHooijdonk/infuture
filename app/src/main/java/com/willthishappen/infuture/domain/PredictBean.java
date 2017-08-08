@@ -5,24 +5,24 @@ package com.willthishappen.infuture.domain;
  */
 
 public class PredictBean {
-    private int id;
+    private String id;
     private String text;
     private long date;
 
     public PredictBean() {
     }
 
-    public PredictBean(int id, String text, long date) {
+    public PredictBean(String id, String text, long date) {
         this.id = id;
         this.text = text;
         this.date = date;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class PredictBean {
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 
     @Override

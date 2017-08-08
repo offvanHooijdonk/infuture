@@ -1,12 +1,9 @@
 package com.willthishappen.infuture.presentation.ui.prediction.edit;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.willthishappen.infuture.R;
@@ -35,15 +32,13 @@ public class AddPredictionActivity extends AppCompatActivity {
         Calendar predictDate = Calendar.getInstance();
         predictDate.add(Calendar.DAY_OF_MONTH, 2);
 
-        PredictBean predictBean = new PredictBean(1, "How much wood would a woodchuck chuck?", predictDate.getTimeInMillis());
+        PredictBean predictBean = new PredictBean(null, "How much wood would a woodchuck chuck?", predictDate.getTimeInMillis());
 
-        database.child("predictions").child(String.valueOf(predictBean.getId())).setValue(predictBean)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                closeActivity();
-            }
-        });
+        DatabaseReference push = database.child("predictions").push();
+        push.setValue(predictBean)
+                .addOnCompleteListener(task ->{
+                        push.getKey();
+                    closeActivity();});
     }
 
     private void closeActivity() {
