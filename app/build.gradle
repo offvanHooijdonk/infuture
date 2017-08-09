@@ -34,6 +34,7 @@ dependencies {
     ext.butterknife_version = '8.8.0'
     ext.rx_version = '1.2.1'
     ext.dagger_version = '2.11'
+    ext.firebase_version = '11.0.4'
 
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:support-v4:$support_version"
@@ -43,7 +44,9 @@ dependencies {
     compile "com.jakewharton:butterknife:$butterknife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
-    compile 'com.google.firebase:firebase-database:11.0.4'
+    compile "com.google.firebase:firebase-database:$firebase_version"
+    compile "com.google.firebase:firebase-auth:$firebase_version"
+    compile "com.google.android.gms:play-services-auth:$firebase_version"
 
     /*compile "io.reactivex:rxandroid:$rx_version"
     compile "io.reactivex:rxjava:$rx_version"*/

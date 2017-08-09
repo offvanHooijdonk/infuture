@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">In Future</string>
+    <string name="web_client_id">420854364808-diq0n14ipbp07jh5d80sm16a8k6sjpcl.apps.googleusercontent.com</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
