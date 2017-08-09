@@ -77,7 +77,7 @@ public class PredictListFragment extends Fragment implements IPredictionListView
             }
         });
 
-        presenter.OnViewCreated();
+        presenter.onViewCreated();
     }
 
     @OnClick(R.id.fabAddPredict)

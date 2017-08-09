@@ -26,7 +26,7 @@ public class PredictionListPresenter {
         this.predictionsDB = predictionsDB;
     }
 
-    public void OnViewCreated() {
+    public void onViewCreated() {
         predictionsDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
