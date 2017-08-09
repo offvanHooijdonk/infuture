@@ -12,10 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.willthishappen.infuture.R;
 import com.willthishappen.infuture.domain.PredictBean;
 import com.willthishappen.infuture.presentation.presenter.prediction.list.PredictionListPresenter;
@@ -81,7 +77,7 @@ public class PredictListFragment extends Fragment implements IPredictionListView
             }
         });
 
-        loadPredictions();
+        presenter.OnViewCreated();
     }
 
     @OnClick(R.id.fabAddPredict)
@@ -89,27 +85,12 @@ public class PredictListFragment extends Fragment implements IPredictionListView
         startAddPredictActivity();
     }
 
-    private void loadPredictions() {
-        FirebaseDatabase.getInstance().getReference("predictions").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                predictList.clear();
-                for (DataSnapshot predictSnapshot : dataSnapshot.getChildren()) {
-                    PredictBean predictBean = predictSnapshot.getValue(PredictBean.class);
-                    if (predictBean != null) {
-                        predictBean.setId(predictSnapshot.getKey());
-                        predictList.add(predictBean);
-                    }
-                }
+    @Override
+    public void updatePredictList(List<PredictBean> list) {
+        predictList.clear();
+        predictList.addAll(list);
 
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // TODO add common implementation for the DB error
-            }
-        });
+        adapter.notifyDataSetChanged();
     }
 
     private void startAddPredictActivity() {

@@ -7,10 +7,6 @@ import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
 
-/**
- * Created by Yahor_Fralou on 8/8/2017 4:03 PM.
- */
-
 @Component(modules = {AndroidSupportInjectionModule.class,
         AppModule.class,
         BuildersModule.class,

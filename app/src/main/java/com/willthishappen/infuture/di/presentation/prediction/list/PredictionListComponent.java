@@ -5,10 +5,6 @@ import com.willthishappen.infuture.presentation.ui.prediction.list.PredictListFr
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
-/**
- * Created by Yahor_Fralou on 8/8/2017 7:24 PM.
- */
-
 @Subcomponent(modules = {PredictionListModule.class})
 public interface PredictionListComponent extends AndroidInjector<PredictListFragment> {
 
