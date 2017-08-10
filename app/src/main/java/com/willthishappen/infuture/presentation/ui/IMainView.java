@@ -5,5 +5,6 @@ package com.willthishappen.infuture.presentation.ui;
  */
 
 public interface IMainView {
-    void showLoginDialog();
+
+    void navigateToLogin();
 }

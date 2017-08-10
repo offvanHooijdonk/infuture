@@ -16,11 +16,19 @@ import dagger.Provides;
 public class RepositoryModule {
 
     public static final String DB_PREDICTIONS = "database_reference_predictions";
+    public static final String DB_USERS = "database_reference_users";
     private static final String NODE_NAME_PREDICTIONS = "predictions";
+    private static final String NODE_NAME_USERS = "users";
 
     @Provides
     @Named(DB_PREDICTIONS)
     DatabaseReference providePredictionDatabase() {
         return FirebaseDatabase.getInstance().getReference(NODE_NAME_PREDICTIONS);
+    }
+
+    @Provides
+    @Named(DB_USERS)
+    DatabaseReference provideUserDatabase() {
+        return FirebaseDatabase.getInstance().getReference(NODE_NAME_USERS);
     }
 }

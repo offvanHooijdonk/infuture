@@ -10,4 +10,6 @@
     <string name="fish_title">How much wood would a woodchuck chuck? More then 2?</string>
     <string name="predict_comes_true_by">Comes true by&#032;</string>
     <string name="predict_comes_true_in">&#032;in&#032;</string>
+    <string name="nav_log_out">Log out</string>
+    <string name="fish_username">John Doe</string>
 </resources>

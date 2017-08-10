@@ -1,5 +1,6 @@
 package com.willthishappen.infuture.presentation.presenter;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.willthishappen.infuture.presentation.ui.IMainView;
 
 import javax.inject.Inject;
@@ -18,6 +19,12 @@ public class MainPresenter {
     }
 
     public void onViewCreated() {
-        view.showLoginDialog();
+
+    }
+
+    public void onLogoutClick() {
+        FirebaseAuth.getInstance().signOut();
+
+        view.navigateToLogin();
     }
 }

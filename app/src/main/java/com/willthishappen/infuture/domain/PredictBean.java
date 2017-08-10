@@ -1,5 +1,7 @@
 package com.willthishappen.infuture.domain;
 
+import java.util.Objects;
+
 /**
  * Created by Yahor_Fralou on 7/31/2017 5:33 PM.
  */
@@ -59,6 +61,6 @@ public class PredictBean {
 
     @Override
     public String toString() {
-        return "{id: " + id + ", text: " + text + ", date: " + date + "}";
+        return Objects.toString(this);
     }
 }
