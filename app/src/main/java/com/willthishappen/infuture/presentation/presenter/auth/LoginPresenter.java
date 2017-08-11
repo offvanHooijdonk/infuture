@@ -37,10 +37,15 @@ public class LoginPresenter {
     }
 
     public void onViewCreated() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            // TODO show up login capabilities
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            view.showAuthOptions(true);
         } else {
-            view.navigateToMain();
+            view.showAuthOptions(false);
+            // TODO update user info or logoff if no such user in DB
+            userDB.child(user.getUid()).setValue(toUserBean(user)).addOnCompleteListener(task -> {
+                view.navigateToMain();
+            });
         }
     }
 
@@ -61,12 +66,15 @@ public class LoginPresenter {
     }
 
     public void onGoogleAuthReturn(Intent data) {
+        view.showAuthProgressDialog(true);
+
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         Log.i(InFutureApplication.LOG, "Result success:" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             firebaseAuthWithGoogle(account);
         } else {
+            view.showAuthProgressDialog(false);
             // todo Google Sign In failed, update UI appropriately
             Log.i(InFutureApplication.LOG, "Error picking account! " + result.getStatus().getStatusCode() + result.getStatus().getStatusMessage());
         }
@@ -74,9 +82,6 @@ public class LoginPresenter {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.i(InFutureApplication.LOG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        //showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -88,12 +93,9 @@ public class LoginPresenter {
                     } else {
                         Log.e(InFutureApplication.LOG, "signInWithCredential:failure", task.getException());
 
+                        view.showAuthProgressDialog(false);
                         view.showError("Failed to authenticate: " + task.getException());
                     }
-
-                    // [START_EXCLUDE]
-                    //hideProgressDialog();
-                    // [END_EXCLUDE]
                 });
     }
 
@@ -106,6 +108,9 @@ public class LoginPresenter {
     }
 
     private void updateAppUser(UserBean userBean) {
-        userDB.child(userBean.getId()).setValue(userBean).addOnCompleteListener(task -> view.navigateToMain());
+        userDB.child(userBean.getId()).setValue(userBean).addOnCompleteListener(task -> {
+            view.showAuthProgressDialog(false);
+            view.navigateToMain();
+        });
     }
 }

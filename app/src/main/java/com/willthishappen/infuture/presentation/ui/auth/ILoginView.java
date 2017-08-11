@@ -12,6 +12,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public interface ILoginView {
     void startGoogleAuthView(GoogleApiClient apiClient);
 
+    void showAuthProgressDialog(boolean show);
+
+    void showAuthOptions(boolean show);
+
     void showError(String msg);
 
     void navigateToMain();

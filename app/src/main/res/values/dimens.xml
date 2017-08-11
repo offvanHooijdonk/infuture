@@ -13,4 +13,5 @@
     <dimen name="vote_stat_separator_width">4dp</dimen>
     <dimen name="item_block_margin_v">8dp</dimen>
     <dimen name="nav_avatar_size">64dp</dimen>
+    <dimen name="login_logo_size">200dp</dimen>
 </resources>
