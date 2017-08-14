@@ -75,6 +75,7 @@ public class LoginPresenter {
             firebaseAuthWithGoogle(account);
         } else {
             view.showAuthProgressDialog(false);
+            view.showError("Sorry, error while authorizing you :(");
             // todo Google Sign In failed, update UI appropriately
             Log.i(InFutureApplication.LOG, "Error picking account! " + result.getStatus().getStatusCode() + result.getStatus().getStatusMessage());
         }
