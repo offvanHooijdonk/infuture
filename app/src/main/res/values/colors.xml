@@ -11,4 +11,8 @@
     <color name="time_left_prx">@color/md_indigo_500</color>
     <color name="badge_active">@color/colorAccent</color>
     <color name="badge_inactive">@color/md_grey_600</color>
+
+    <color name="refresh_one">@color/colorAccent</color>
+    <color name="refresh_two">@color/colorPrimary</color>
+    <color name="refresh_three">@color/md_green_A700</color>
 </resources>

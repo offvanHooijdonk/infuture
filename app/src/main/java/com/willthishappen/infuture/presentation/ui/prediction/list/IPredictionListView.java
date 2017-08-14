@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface IPredictionListView {
     void updatePredictList(List<PredictBean> list);
+
+    void showRefreshProcess(boolean show);
 }

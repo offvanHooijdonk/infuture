@@ -2,10 +2,6 @@ package com.willthishappen.infuture.util;
 
 import com.willthishappen.infuture.domain.UserBean;
 
-/**
- * Created by Yahor_Fralou on 8/14/2017 1:10 PM.
- */
-
 public class SessionHelper {
     private static UserBean loggedUser;
 

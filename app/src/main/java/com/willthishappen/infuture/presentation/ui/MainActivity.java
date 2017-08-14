@@ -17,15 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.willthishappen.infuture.R;
+import com.willthishappen.infuture.domain.UserBean;
 import com.willthishappen.infuture.presentation.presenter.MainPresenter;
 import com.willthishappen.infuture.presentation.ui.auth.LoginActivity;
 import com.willthishappen.infuture.presentation.ui.prediction.list.PredictListFragment;
+import com.willthishappen.infuture.util.SessionHelper;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -37,11 +39,16 @@ public class MainActivity extends AppCompatActivity
     @Inject
     MainPresenter presenter;
 
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,33 +58,31 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        presenter.onViewCreated();
+    }
+
+    @Override
+    public void initMainView() {
         navigationView.setCheckedItem(R.id.nav_predict_list);
         navigateFragment(FragmentFactory.getPredictListFragment());
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            View headerView = navigationView.getHeaderView(0);
-            TextView txtUserName = (TextView) headerView.findViewById(R.id.txtUserName);
-            TextView txtUserEmail = (TextView) headerView.findViewById(R.id.txtUserEmail);
-            ImageView imgUserAvatar = (ImageView) headerView.findViewById(R.id.imgUserAvatar);
+        UserBean user = SessionHelper.getCurrentUser();
 
-            txtUserName.setText(user.getDisplayName());
-            txtUserEmail.setText(user.getEmail());
-            if (user.getPhotoUrl() != null) {
-                Glide.with(this).load(user.getPhotoUrl())
-                        .placeholder(R.drawable.ic_account_circle_80dp)
-                        .bitmapTransform(new CropCircleTransformation(this))
-                        .into(imgUserAvatar);
-            }
-        } else {
-            navigateToLogin();
+        View headerView = navigationView.getHeaderView(0);
+        TextView txtUserName = (TextView) headerView.findViewById(R.id.txtUserName);
+        TextView txtUserEmail = (TextView) headerView.findViewById(R.id.txtUserEmail);
+        ImageView imgUserAvatar = (ImageView) headerView.findViewById(R.id.imgUserAvatar);
+
+        txtUserName.setText(user.getName());
+        txtUserEmail.setText(user.getEmail());
+        if (user.getPhotoUrl() != null) {
+            Glide.with(this).load(user.getPhotoUrl())
+                    .placeholder(R.drawable.ic_account_circle_80dp)
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .into(imgUserAvatar);
         }
-
-
-        presenter.onViewCreated();
     }
 
     @Override
@@ -105,9 +110,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_predict_list) {
             navigateFragment(FragmentFactory.getPredictListFragment());
         } else if (id == R.id.nav_log_out) {
+            // todo add confirm dialog
             presenter.onLogoutClick();
         }
 

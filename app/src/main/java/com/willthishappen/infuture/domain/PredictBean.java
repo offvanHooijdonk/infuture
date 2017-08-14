@@ -2,14 +2,12 @@ package com.willthishappen.infuture.domain;
 
 import java.util.Objects;
 
-/**
- * Created by Yahor_Fralou on 7/31/2017 5:33 PM.
- */
-
 public class PredictBean {
     private String id;
     private String text;
     private long date;
+    private long likeNumber = 0;
+    private boolean likedByCurrentUser = false;
 
     public PredictBean() {
     }
@@ -44,14 +42,29 @@ public class PredictBean {
         this.date = date;
     }
 
+    public long getLikeNumber() {
+        return likeNumber;
+    }
+
+    public void setLikeNumber(long likeNumber) {
+        this.likeNumber = likeNumber;
+    }
+
+    public boolean isLikedByCurrentUser() {
+        return likedByCurrentUser;
+    }
+
+    public void setLikedByCurrentUser(boolean likedByCurrentUser) {
+        this.likedByCurrentUser = likedByCurrentUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || !(o instanceof PredictBean)) return false;
 
         PredictBean that = (PredictBean) o;
 
-        return id == that.id;
-
+        return id.equals(that.id);
     }
 
     @Override

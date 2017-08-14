@@ -18,8 +18,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:tint="@color/colorPrimary"
-            android:src="@drawable/ic_question_40" />
+            android:src="@drawable/ic_question_40"
+            android:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/txtPredictText"
@@ -108,10 +108,11 @@
             app:state="inactive" />
 
         <by.offvanhooijdonk.views.BadgeNumbersView
-            android:id="@+id/badgeFavourite"
+            android:id="@+id/badgeLiked"
             style="@style/BadgeButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
             app:numberValue="2300"
             app:src="@drawable/ic_favorite_24dp"
             app:state="active" />

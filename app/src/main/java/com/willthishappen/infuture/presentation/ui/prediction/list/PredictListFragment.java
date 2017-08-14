@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,12 +28,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 
-public class PredictListFragment extends Fragment implements IPredictionListView {
+public class PredictListFragment extends Fragment implements IPredictionListView, PredictListAdapter.OnPredictEventListener {
 
     @BindView(R.id.listPredicts)
     RecyclerView listPredicts;
     @BindView(R.id.fabAddPredict)
     FloatingActionButton fabAddPredict;
+    @BindView(R.id.refreshPredictList)
+    SwipeRefreshLayout refreshLayout;
 
     private Context ctx;
     private List<PredictBean> predictList = new ArrayList<>();
@@ -61,7 +64,7 @@ public class PredictListFragment extends Fragment implements IPredictionListView
         super.onViewCreated(v, savedInstanceState);
 
         //initStubList();
-        adapter = new PredictListAdapter(ctx, predictList);
+        adapter = new PredictListAdapter(ctx, predictList, this);
 
         listPredicts.setLayoutManager(new LinearLayoutManager(ctx));
         listPredicts.setAdapter(adapter);
@@ -77,6 +80,9 @@ public class PredictListFragment extends Fragment implements IPredictionListView
             }
         });
 
+        refreshLayout.setColorSchemeResources(R.color.refresh_one, R.color.refresh_two, R.color.refresh_three);
+        refreshLayout.setEnabled(false);
+
         presenter.onViewCreated();
     }
 
@@ -91,6 +97,20 @@ public class PredictListFragment extends Fragment implements IPredictionListView
         predictList.addAll(list);
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLikeClick(String predictId, boolean like) {
+        presenter.onPredictLiked(predictId, like);
+    }
+
+    @Override
+    public void showRefreshProcess(boolean show) {
+        if (show) {
+            refreshLayout.setRefreshing(true);
+        } else {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private void startAddPredictActivity() {
