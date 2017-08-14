@@ -3,7 +3,7 @@
     <color name="colorPrimary">@color/md_indigo_500</color>
     <color name="colorPrimaryDark">@color/md_indigo_700</color>
     <color name="colorAccent">@color/md_deep_orange_A400</color>
-    <color name="error_snackbar_text">@color/md_red_A400</color>
+    <color name="error_snackbar_text">@color/md_red_A200</color>
 
     <color name="list_item_primary">@android:color/primary_text_light</color>
     <color name="vote_stat_pos">@color/md_green_A700</color>

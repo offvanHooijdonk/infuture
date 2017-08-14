@@ -6,4 +6,9 @@
     <string name="nav_predict_list">Предсказания</string>
     <string name="predict_comes_true_by">"Сбудется на "</string>
     <string name="predict_comes_true_in">" через "</string>
+    <string name="nav_log_out">Выйти</string>
+    <string name="fish_username">Вася Пупкин</string>
+    <string name="btn_login">Войти</string>
+    <string name="login_options_or">ИЛИ</string>
+    <string name="login_progress_dialog_msg">Регистрируемся…</string>
 </resources>

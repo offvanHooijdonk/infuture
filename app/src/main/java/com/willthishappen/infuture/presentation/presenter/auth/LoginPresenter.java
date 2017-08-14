@@ -14,12 +14,16 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.willthishappen.infuture.R;
 import com.willthishappen.infuture.app.InFutureApplication;
 import com.willthishappen.infuture.di.repository.RepositoryModule;
 import com.willthishappen.infuture.domain.UserBean;
 import com.willthishappen.infuture.presentation.ui.auth.ILoginView;
+import com.willthishappen.infuture.util.SessionHelper;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -42,9 +46,27 @@ public class LoginPresenter {
             view.showAuthOptions(true);
         } else {
             view.showAuthOptions(false);
-            // TODO update user info or logoff if no such user in DB
-            userDB.child(user.getUid()).setValue(toUserBean(user)).addOnCompleteListener(task -> {
-                view.navigateToMain();
+            // update user info from Firebase or logoff if no such user in DB
+            userDB.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        UserBean userBean = dataSnapshot.getValue(UserBean.class);
+                        updateLocalUser(userBean);
+
+                        view.navigateToMain();
+                    } else {
+                        FirebaseAuth.getInstance().signOut();
+                        SessionHelper.signOut();
+
+                        view.showAuthOptions(true);
+                        view.showError("User not found, login once again");
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    onEventCancelled(databaseError);
+                }
             });
         }
     }
@@ -90,7 +112,7 @@ public class LoginPresenter {
                     if (task.isSuccessful()) {
                         Log.i(InFutureApplication.LOG, "signInWithCredential:success");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        updateAppUser(toUserBean(user));
+                        updateUserInDB(toUserBean(user));
                     } else {
                         Log.e(InFutureApplication.LOG, "signInWithCredential:failure", task.getException());
 
@@ -108,10 +130,20 @@ public class LoginPresenter {
                 firebaseUser.getEmail());
     }
 
-    private void updateAppUser(UserBean userBean) {
+    private void updateLocalUser(UserBean userBean) {
+        SessionHelper.setCurrentUser(userBean);
+    }
+
+    private void updateUserInDB(UserBean userBean) {
         userDB.child(userBean.getId()).setValue(userBean).addOnCompleteListener(task -> {
+            updateLocalUser(userBean);
             view.showAuthProgressDialog(false);
             view.navigateToMain();
         });
+    }
+
+    private void onEventCancelled(DatabaseError databaseError) {
+        view.showAuthProgressDialog(false);
+        view.showError("Error synchronizing your account: " + databaseError.getMessage());
     }
 }
