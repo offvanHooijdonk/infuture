@@ -5,14 +5,13 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+// TODO try implement with Compound Drawable
 public class BadgeNumbersView extends FrameLayout {
     private static final String LOG = "BadgeNumbersView";
 
@@ -89,8 +88,8 @@ public class BadgeNumbersView extends FrameLayout {
         int colorResource = state == STATE_ACTIVE ? R.color.badge_active : R.color.badge_inactive;
         int color = getContext().getResources().getColor(colorResource);
 
-        DrawableCompat.setTint(imgBadgeIcon.getDrawable(), color);
-        //txtBadgeNumber.setTextColor(color);
+        imgBadgeIcon.setColorFilter(color);
+        txtBadgeNumber.setTextColor(color);
     }
 
     private void updateImageSize() {
