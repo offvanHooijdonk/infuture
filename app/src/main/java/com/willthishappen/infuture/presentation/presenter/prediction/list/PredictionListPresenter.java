@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.willthishappen.infuture.app.InFutureApplication;
 import com.willthishappen.infuture.di.repository.RepositoryModule;
 import com.willthishappen.infuture.domain.PredictBean;
+import com.willthishappen.infuture.domain.UserBean;
 import com.willthishappen.infuture.presentation.ui.prediction.list.IPredictionListView;
 import com.willthishappen.infuture.util.SessionHelper;
 
@@ -26,6 +27,7 @@ public class PredictionListPresenter {
     private IPredictionListView view;
     private DatabaseReference predictDB;
     private List<PredictBean> predictList = new ArrayList<>();
+    private Integer processedPredictsCount = 0;
 
     @Inject
     public PredictionListPresenter(IPredictionListView view, @Named(RepositoryModule.DB_PREDICTIONS) DatabaseReference predictDB) {
@@ -34,40 +36,25 @@ public class PredictionListPresenter {
     }
 
     public void onViewCreated() {
-        predictDB.addValueEventListener(new ValueEventListener() {
+        view.showRefreshProcess(true);
+        // TODO pagination
+        predictDB.limitToFirst(30).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                view.showRefreshProcess(true);
                 predictList.clear();
+                UserBean user = SessionHelper.getCurrentUser();
+
                 for (DataSnapshot predictSnapshot : dataSnapshot.getChildren()) {
                     PredictBean predictBean = predictSnapshot.getValue(PredictBean.class);
                     if (predictBean != null) {
                         predictBean.setId(predictSnapshot.getKey());
+                        predictBean.updateLikesInfo(user);
                         predictList.add(predictBean);
-
-                        /*predictDB.child(predictBean.getId() + "/" + DB_LIKES_NODE).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    Map<String, String> likes = (Map<String, String>) dataSnapshot.getValue();
-                                    Log.i(InFutureApplication.LOG, likes.toString());
-                                    @SuppressWarnings("ConstantConditions")
-                                    int likeNumber = likes.size();
-                                    predictBean.setLikeNumber(likeNumber);
-                                    predictBean.setLikedByCurrentUser(likes.containsKey(SessionHelper.getCurrentUser().getId()));
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // todo
-                            }
-                        });*/
                     }
                 }
 
-                view.updatePredictList(predictList);
                 view.showRefreshProcess(false);
+                view.updatePredictList(predictList);
             }
 
             @Override
