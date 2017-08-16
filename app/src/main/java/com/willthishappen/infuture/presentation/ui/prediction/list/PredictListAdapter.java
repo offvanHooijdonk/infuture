@@ -40,7 +40,7 @@ public class PredictListAdapter extends RecyclerView.Adapter<PredictListAdapter.
         PredictBean predict = predicts.get(position);
 
         vh.txtPredictTitle.setText(predict.getText());
-        vh.badgeLikes.setNumberValue(predict.getLikeNumber());
+        vh.badgeLikes.setNumberValue(predict.getLikeCount());
         vh.badgeLikes.setState(predict.isLikedByCurrentUser() ? BadgeNumbersView.STATE_ACTIVE : BadgeNumbersView.STATE_INACTIVE);
         vh.badgeLikes.setOnClickListener(v -> {
             boolean likeNewValue = !predict.isLikedByCurrentUser();

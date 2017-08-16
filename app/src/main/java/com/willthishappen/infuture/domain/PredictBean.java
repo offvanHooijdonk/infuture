@@ -1,17 +1,14 @@
 package com.willthishappen.infuture.domain;
 
-import android.support.annotation.NonNull;
-
-import java.util.Map;
 import java.util.Objects;
 
 public class PredictBean {
     private String id;
     private String text;
     private long date;
-    private long likeNumber = 0;
+    private long likeCount = 0;
     private boolean likedByCurrentUser = false;
-    private Map<String, String> likes;
+    //private Map<String, String> likes;
 
     public PredictBean() {
     }
@@ -49,24 +46,24 @@ public class PredictBean {
     /**
      * NOTE: do not store likes in memory!
      */
-    public void setLikes(Map<String, String> likes) {
+    /*public void setLikes(Map<String, String> likes) {
         this.likes = likes;
-    }
+    }*/
 
     /**
      * NOTE: method left for accessibility. Not supposed to return any value but <code>null</code>, because holding likes in memory can be highly costly.
      * @return <code>null</code> in most cases
      */
-    public Map<String, String> getLikes() {
+    /*public Map<String, String> getLikes() {
         return likes;
+    }*/
+
+    public long getLikeCount() {
+        return likeCount;
     }
 
-    public long getLikeNumber() {
-        return likeNumber;
-    }
-
-    public void setLikeNumber(long likeNumber) {
-        this.likeNumber = likeNumber;
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
     }
 
     public boolean isLikedByCurrentUser() {
@@ -81,14 +78,14 @@ public class PredictBean {
      * Updates fields: number of likes and if current user liked this; after that <code>likes</code> set to <code>null</code> to free memory
      * @param user current user, for who you check thi 'like' status
      */
-    public void updateLikesInfo(@NonNull UserBean user) {
+    /*public void updateLikesInfo(@NonNull UserBean user) {
         if (likes != null) {
-            likeNumber = likes.size();
+            likeCount = likes.size();
             likedByCurrentUser = likes.containsKey(user.getId());
 
             likes = null;
         }
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
